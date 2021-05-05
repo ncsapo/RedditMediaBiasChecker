@@ -1,6 +1,8 @@
 #!/usr/bin/python
 import praw
 import sys
+import nwebscraper
+import re
 
 import sys
 if (sys.version_info>=(3, 0, 0,)):
@@ -26,8 +28,6 @@ reddit = praw.Reddit(user_agent=userAgent, client_id=cID, client_secret=cSC, use
 
 subreddit = reddit.subreddit('MediaBiasDebug') #any subreddit you want to monitor
 
-bot_phrase = 'Aw shucks, looks like I am staying in >:(' #phrase that the bot replies with
-
 keywords = {'test','test2'} #makes a set of keywords to find in subreddits
 
 for submission in subreddit.hot(limit=10): #this views the top 10 posts in that subbreddit
@@ -43,6 +43,14 @@ for submission in subreddit.hot(limit=10): #this views the top 10 posts in that 
             ParsedURL = list(urlparse(submission.url))
             
             URLShort = ParsedURL[1]
+            
+            try:
+                substring = re.search('qwerty(.+?)qwerty', URLShort.replace('.','qwerty')).group(1)
+            except AttributeError:
+                # AAA, ZZZ not found in the original string
+                Substring = 'N/A' # apply your error handling
+            
+            SourceBias = nwebscraper.getBias(substring)
 
             print('Bot replying to: ') #replies and outputs to the command line
 
@@ -51,10 +59,16 @@ for submission in subreddit.hot(limit=10): #this views the top 10 posts in that 
             print("Text: ", submission.selftext)
 
             print("Score: ", submission.score)
+            
+            print("Substring: ", substring)
+            
+            print("Bias: ", SourceBias)
 
             print("URL: ", URLShort)
 
             print("---------------------------------")
+            
+            bot_phrase = URLShort + ' is rated by MediaBiasFactCheck.com to have a ' + SourceBias + ' leaning bias, and a factual reporting rating of, ' + 'Not Implemented'
 
             print('Bot saying: ', bot_phrase)
 
