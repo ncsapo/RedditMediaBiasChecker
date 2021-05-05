@@ -1,5 +1,3 @@
-
-
 import requests
 from bs4 import BeautifulSoup
 
@@ -13,7 +11,7 @@ def getBias(sourceName):
     page = requests.get(URL)
     page_content = BeautifulSoup(page.content, 'html.parser')
     #Find images on the website with the attribute "data-image-title" and assign the title's value as extractedTitle. This is the unique title given to the image showing bias on each page. This title conviniently is short and is named after the bias it shows. E.g. left07
-    img_details = pageContent.find("img", attrs={"data-image-title":True})
+    img_details = page_content.find("img", attrs={"data-image-title":True})
     extractedTitle = img_details['data-image-title']
     #return the title without the numbers at the end
     return extractedTitle[:-2]
