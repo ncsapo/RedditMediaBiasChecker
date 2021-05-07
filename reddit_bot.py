@@ -48,9 +48,11 @@ for submission in subreddit.hot(limit=10): #this views the top 10 posts in that 
                 substring = re.search('qwerty(.+?)qwerty', URLShort.replace('.','qwerty')).group(1)
             except AttributeError:
                 # AAA, ZZZ not found in the original string
-                Substring = 'N/A' # apply your error handling
+                substring = 'N/A' # apply your error handling
             
-            SourceBias = nwebscraper.getBias(substring)
+            SourceBias = nwebscraper.getBias(substring)[0]
+            
+            SourceFactual = nwebscraper.getBias(substring)[1]
 
             print('Bot replying to: ') #replies and outputs to the command line
 
@@ -68,7 +70,7 @@ for submission in subreddit.hot(limit=10): #this views the top 10 posts in that 
 
             print("---------------------------------")
             
-            bot_phrase = URLShort + ' is rated by MediaBiasFactCheck.com to have a ' + SourceBias + ' leaning bias, and a factual reporting rating of, ' + 'Not Implemented'
+            bot_phrase = URLShort + ' is rated by MediaBiasFactCheck.com to have a ' + SourceBias + ' leaning bias, and a factual reporting rating of: ' + SourceFactual + '. To see how this source was rated, please visit mediabiasfactcheck.com/' + substring + '/'
 
             print('Bot saying: ', bot_phrase)
 
