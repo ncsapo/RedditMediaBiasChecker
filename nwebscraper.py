@@ -17,7 +17,8 @@ def convert(argument):
         "MostlyFactual" : "Mostly-Factual",
         "Mixed" : "Mixed",
         "Low" : "Low",
-        "VeryLow" : "Very-Low"
+        "VeryLow" : "Very-Low",
+        "satirelabel" : "Satire"
     }
     return switcher.get(argument, "Not Classified/Found")
 
@@ -32,8 +33,11 @@ def get_bias(source_name):
     bias = parts[1]
     bias = bias[2:bias.find('"',2)-2]
 
-    factual_reporting = parts[5]
-    factual_reporting = factual_reporting[6:factual_reporting.find('"',6)]
+    try:
+        factual_reporting = parts[5]
+        factual_reporting = factual_reporting[6:factual_reporting.find('"',6)]
+    except:
+        factual_reporting = "satirelabel"
 
     print(f"Bias: {bias}")
     print(f"Factual Reporting: {factual_reporting}")
