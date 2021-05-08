@@ -4,6 +4,7 @@ import nwebscraper
 import re
 
 Source_Sites = [
+    "https://www.washingtonpost.com/",
     "https://972mag.com/",
     "https://www.10news.one/",
     "https://100percentfedup.com/",
@@ -3414,6 +3415,7 @@ Source_Sites = [
     "http://maga2020.us",
     ]
 Media_Bias_Page = [
+    "https://mediabiasfactcheck.com/washington-post/",
     "https://mediabiasfactcheck.com/972-magazine/",
     "https://mediabiasfactcheck.com/100-percent-fed-up/",
     "https://mediabiasfactcheck.com/10news-one/",
