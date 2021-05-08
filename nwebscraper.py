@@ -19,11 +19,15 @@ def convert(argument):
         "Low" : "Low",
         "VeryLow" : "Very-Low"
     }
-    return switcher.get(argument, "Not Classified")
+    return switcher.get(argument, "Not Classified/Found")
 
 def get_bias(source_name):
-    page_data = requests.get(bias_checking_website + source_name).text
-    parts = page_data.split('data-image-title')
+    response = requests.get(bias_checking_website + source_name)
+    if response.status_code != 200:
+        return "Page not found", "Page not found"
+    response = response.text
+
+    parts = response.split('data-image-title')
 
     bias = parts[1]
     bias = bias[2:bias.find('"',2)-2]
