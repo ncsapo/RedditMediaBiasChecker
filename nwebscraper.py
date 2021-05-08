@@ -1,26 +1,41 @@
 import requests
 
-#from bs4 import BeautifulSoup
-
 #Where are we getting this info?
 bias_checking_website = "https://mediabiasfactcheck.com/"
 
-def getBias(source_name):
+def bias_convert(argument):
+    switcher = {
+        "extremeright": "Extreme-Right",
+        "right": "Right",
+        "rightcenter" : "Right-Center",
+        "leastbiased" : "Least-Biased",
+        "extremeleft": "Extreme-Left",
+        "left": "Left",
+        "leftcenter" : "Left-Center",
+    }
+    return switcher.get(argument, "Not Classified")
+
+def get_bias(source_name):
     page_data = requests.get(bias_checking_website + source_name).text
     parts = page_data.split('data-image-title')
 
     bias = parts[1]
-    bias = bias[2:7]
+    bias = bias[2:bias.find('"',2)-2]
 
-    factual_reporting = parts[4]
-    factual_reporting = factual_reporting[6:19]
+    factual_reporting = parts[5]
+    factual_reporting = factual_reporting[6:factual_reporting.find('"',6)]
 
     print(f"Bias: {bias}")
     print(f"Factual Reporting: {factual_reporting}")
-    return bias, factual_reporting
+    return bias_convert(bias), factual_reporting
 
+print("nwebscraper loaded")
 
 '''
+OLD CODE
+
+from bs4 import BeautifulSoup
+
 #Takes in the name of the media you want to fact-check. Needs to be identical to the bias_checking_website url to the source
 def getBias(sourceName):
     print("blah blah: ", sourceName)
@@ -42,5 +57,3 @@ def getBias(sourceName):
 
 #print(getBias('hot-air'))
 '''
-
-print("nwebscraper loaded")
