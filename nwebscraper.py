@@ -3,7 +3,7 @@ import requests
 #Where are we getting this info?
 bias_checking_website = "https://mediabiasfactcheck.com/"
 
-def bias_convert(argument):
+def convert(argument):
     switcher = {
         "extremeright": "Extreme-Right",
         "right": "Right",
@@ -12,6 +12,12 @@ def bias_convert(argument):
         "extremeleft": "Extreme-Left",
         "left": "Left",
         "leftcenter" : "Left-Center",
+        "VeryHigh" : "Very-High",
+        "High" : "High",
+        "MostlyFactual" : "Mostly-Factual",
+        "Mixed" : "Mixed",
+        "Low" : "Low",
+        "VeryLow" : "Very-Low"
     }
     return switcher.get(argument, "Not Classified")
 
@@ -27,7 +33,7 @@ def get_bias(source_name):
 
     print(f"Bias: {bias}")
     print(f"Factual Reporting: {factual_reporting}")
-    return bias_convert(bias), factual_reporting
+    return convert(bias), convert(factual_reporting)
 
 print("nwebscraper loaded")
 
