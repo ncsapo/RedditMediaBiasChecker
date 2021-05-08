@@ -6878,9 +6878,9 @@ for submission in subreddit.hot(limit=10): #this views the top 10 posts in that 
             
             print(substring)
             
-            SourceBias = nwebscraper.getBias(substring)[0]
+            SourceBias = nwebscraper.get_bias(substring)[0]
             
-            SourceFactual = nwebscraper.getBias(substring)[1]
+            SourceFactual = nwebscraper.get_bias(substring)[1]
 
             print('Bot replying to: ') #replies and outputs to the command line
 
