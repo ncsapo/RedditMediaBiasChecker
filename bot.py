@@ -13,8 +13,9 @@ async def on_ready():
 async def on_message(message):
     if message.author == client.user:
         return
-    response = MediaBias.check_bias(message.content)
-    await message.reply("WARNING!: This message is toxic!")
+    if message.embeds:
+        response = MediaBias.check_bias(message.content)
+        await message.reply(response)
 
 load_dotenv('bot.env')
 TOKEN=os.getenv('TOKEN')

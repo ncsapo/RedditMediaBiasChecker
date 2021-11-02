@@ -6923,6 +6923,8 @@ def check_bias(link):
             print()
             
             found = True
+
+            numFound += 1
             
             break
         if found == False:
