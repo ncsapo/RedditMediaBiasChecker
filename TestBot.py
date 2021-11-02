@@ -4,6 +4,8 @@ import nwebscraper
 import re
 
 Source_Sites = [
+    "https://nypost.com/",
+    "https://thefederalist.com/",
     "https://www.washingtonpost.com/",
     "https://972mag.com/",
     "https://www.10news.one/",
@@ -3415,6 +3417,8 @@ Source_Sites = [
     "http://maga2020.us",
     ]
 Media_Bias_Page = [
+    "https://mediabiasfactcheck.com/new-york-post/",
+    "https://mediabiasfactcheck.com/the-federalist/",
     "https://mediabiasfactcheck.com/washington-post/",
     "https://mediabiasfactcheck.com/972-magazine/",
     "https://mediabiasfactcheck.com/100-percent-fed-up/",
@@ -6852,61 +6856,88 @@ userP ='2eH4F_H%PfE_S_7'
 
 numFound = 0
 
+f = open("UnregisteredSources.csv", "w")
+
 reddit = praw.Reddit(user_agent=userAgent, client_id=cID, client_secret=cSC, username=userN, password=userP)
 
 subreddit = reddit.subreddit('MediaBiasDebug') #any subreddit you want to monitor
 
-keywords = {'test','test2'} #makes a set of keywords to find in subreddits
+for submission in subreddit.hot(): #this views the top 10 posts in that subbreddit
 
-for submission in subreddit.hot(limit=10): #this views the top 10 posts in that subbreddit
-
-    n_title = submission.title.lower() #makes the post title lowercase so we can compare our keywords with it.
-
-    for i in keywords: #goes through our keywords
-
-        if i in n_title: #if one of our keywords matches a title in the top 10 of the subreddit
-
-            numFound = numFound + 1
+    n_url = submission.url #makes the post title lowercase so we can compare our keywords with it.
             
-            ParsedURL = list(urlparse(submission.url))
+    ParsedURL = list(urlparse(n_url))
             
-            URLShort = ParsedURL[1]
-            
-            print(URLShort)
-            
-            index = index_containing_substring(Source_Sites, URLShort)
-            
-            substring = Media_Bias_Page[index]
-            
-            print(substring)
-            
-            SourceBias = nwebscraper.get_bias(substring)[0]
-            
-            SourceFactual = nwebscraper.get_bias(substring)[1]
+    URLShort = ParsedURL[1]
+    
+    CheckURL = URLShort + "/"
+    
+    found = False
+    
+    print("CheckURL: ", CheckURL)
+    print("N_URL: ", n_url)
+    if submission.saved == False:
+        for i in Source_Sites: #goes through our keywords
+        
+            if i in n_url: #if one of our keywords matches a URL in the top 10 of the subreddit
+                submission.save()
+                
+                ParsedURL = list(urlparse(submission.url))
+                
+                URLShort = ParsedURL[1]
+                
+                print(URLShort)
+                
+                index = index_containing_substring(Source_Sites, URLShort)
+                
+                substring = Media_Bias_Page[index]
+                
+                print(substring)
+                
+                SourceBias = nwebscraper.get_bias(substring)[0]
+                
+                SourceFactual = nwebscraper.get_bias(substring)[1]
 
-            print('Bot replying to: ') #replies and outputs to the command line
+                print('Bot replying to: ') #replies and outputs to the command line
 
-            print("Title: ", submission.title)
+                print("Title: ", submission.title)
 
-            print("Text: ", submission.selftext)
+                print("Text: ", submission.selftext)
 
-            print("Score: ", submission.score)
-            
-            print("Substring: ", substring)
-            
-            print("Bias: ", SourceBias)
+                print("Score: ", submission.score)
+                
+                print("Substring: ", substring)
+                
+                print("Bias: ", SourceBias)
 
-            print("URL: ", URLShort)
+                print("URL: ", URLShort)
 
-            print("---------------------------------")
-            
-            bot_phrase = URLShort + ' is rated by MediaBiasFactCheck.com to have a ' + SourceBias + ' leaning bias, and a factual reporting rating of: ' + SourceFactual + '. To see how this source was rated, please visit mediabiasfactcheck.com/' + substring + '/'
+                print("---------------------------------")
+                if SourceBias or SourceFactual == "Satire":
+                    bot_phrase = 'MediaBiasFactCheck.com has labeled ' + URLShort + ' to be satire. To see how this source was rated, please visit mediabiasfactcheck.com/' + substring + '/'
+                else:
+                    bot_phrase = URLShort + ' is rated by MediaBiasFactCheck.com to have a ' + SourceBias + ' leaning bias, and a factual reporting rating of: ' + SourceFactual + '. To see how this source was rated, please visit mediabiasfactcheck.com/' + substring + '/'
 
-            print('Bot saying: ', bot_phrase)
+                print('Bot saying: ', bot_phrase)
 
-            print()
+                print()
 
-            submission.reply(bot_phrase)
+                submission.reply(bot_phrase)
+                
+                found = True
+                
+                break
+        if found == False:
+            print("Unregistered URL: ", URLShort)
+            f.write(URLShort)
+            f.write(",")
+            f.write("\n")
+            submission.save()
+    else:
+        print("Already replied: Skipping")
+        
+
+    
 
 if numFound == 0:
 
