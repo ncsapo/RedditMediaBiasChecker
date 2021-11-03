@@ -6894,9 +6894,9 @@ def check_bias(link):
             
             print(substring)
             
-            SourceBias = nwebscraper.get_bias(substring)[0]
-            
-            SourceFactual = nwebscraper.get_bias(substring)[1]
+            SourceBias, SourceFactual = nwebscraper.get_bias(substring)
+
+            #SourceFactual = nwebscraper.get_bias(substring)[1]
 
             print('Bot replying to: ') #replies and outputs to the command line
 
@@ -6908,12 +6908,14 @@ def check_bias(link):
             
             print("Substring: ", substring)
             
-            print("Bias: ", SourceBias)
+            print("SourceBias: ", SourceBias)
+
+            print("SourceFactual: ", SourceFactual)
 
             print("URL: ", URLShort)
 
             print("---------------------------------")
-            if SourceBias or SourceFactual == "Satire":
+            if SourceBias == "Satire" or SourceFactual == "Satire":
                 bot_phrase = 'MediaBiasFactCheck.com has labeled ' + URLShort + ' to be satire. To see how this source was rated, please visit mediabiasfactcheck.com/' + substring + '/'
             else:
                 bot_phrase = URLShort + ' is rated by MediaBiasFactCheck.com to have a ' + SourceBias + ' leaning bias, and a factual reporting rating of: ' + SourceFactual + '. To see how this source was rated, please visit mediabiasfactcheck.com/' + substring + '/'
