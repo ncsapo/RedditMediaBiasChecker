@@ -6918,7 +6918,7 @@ def check_bias(link):
             if SourceBias == "Satire" or SourceFactual == "Satire":
                 bot_phrase = 'MediaBiasFactCheck.com has labeled ' + URLShort + ' to be satire. To see how this source was rated, please visit ' + substring + '/'
             else:
-                bot_phrase = URLShort + ' is rated by MediaBiasFactCheck.com to have a ' + SourceBias + ' leaning bias, and a factual reporting rating of: ' + SourceFactual + '. To see how this source was rated, please visit mediabiasfactcheck.com/' + substring + '/'
+                bot_phrase = URLShort + ' is rated by MediaBiasFactCheck.com to have a ' + SourceBias + ' leaning bias, and a factual reporting rating of: ' + SourceFactual + '. To see how this source was rated, please visit ' + substring + '/'
 
             print('Bot saying: ', bot_phrase)
 
