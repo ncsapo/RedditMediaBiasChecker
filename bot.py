@@ -15,7 +15,10 @@ async def on_message(message):
         return
     if message.embeds:
         response = MediaBias.check_bias(message.content)
-        await message.reply(response)
+        if response == "The bot was unable to rate this source":
+            await message.add_reaction("❌")
+        else:
+            await message.reply(response)
 
 load_dotenv('bot.env')
 TOKEN=os.getenv('TOKEN')
