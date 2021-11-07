@@ -11,7 +11,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    if message.author == client.user:
+    if message.author == client.user and not message.author.bot:
         return
     if message.embeds:
         response = MediaBias.check_bias(message.content)
