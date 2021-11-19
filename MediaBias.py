@@ -3,6 +3,7 @@ import nwebscraper
 import re
 
 Source_Sites = [
+    "http://www.infowars.com/"
     "https://nypost.com/",
     "https://thefederalist.com/",
     "https://www.washingtonpost.com/",
@@ -3416,6 +3417,7 @@ Source_Sites = [
     "http://maga2020.us",
     ]
 Media_Bias_Page = [
+    "https://mediabiasfactcheck.com/infowars-alex-jones/"
     "https://mediabiasfactcheck.com/new-york-post/",
     "https://mediabiasfactcheck.com/the-federalist/",
     "https://mediabiasfactcheck.com/washington-post/",
