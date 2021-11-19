@@ -3,7 +3,7 @@ import nwebscraper
 import re
 
 Source_Sites = [
-    "http://www.infowars.com/"
+    "https://www.infowars.com/"
     "https://nypost.com/",
     "https://thefederalist.com/",
     "https://www.washingtonpost.com/",
